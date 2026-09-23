@@ -1,11 +1,12 @@
 #!/bin/bash
 
-MODE=""
+MODE=$1
+shift
+
 OUTPUT_PATH=""
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        base|new) MODE="$1"; shift ;;
         --output_path) OUTPUT_PATH="$2"; shift 2 ;;
         *) shift ;;
     esac
@@ -16,7 +17,7 @@ if [ -z "$OUTPUT_PATH" ]; then
 fi
 
 if [ "$MODE" == "base" ]; then
-    pytest --junitxml="$OUTPUT_PATH" -m "not new"
+    pytest --junitxml="$OUTPUT_PATH" -k "not test_new"
 elif [ "$MODE" == "new" ]; then
     pytest --junitxml="$OUTPUT_PATH"
 else
